@@ -1,10 +1,10 @@
 package com.sunday.otmt.testData;
 
-import com.sunday.otmt.entity.Team;
-import com.sunday.otmt.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GenerateTeam {
-
+/*
 	public Team generateTeam() {
 		
 		User user1 = new User("Bilgehan", "Kaya", "bilgehan@gmail.com", "05354236525");
@@ -20,4 +20,5 @@ public class GenerateTeam {
 
 		return cloudTeam;
 	}
+	*/
 }

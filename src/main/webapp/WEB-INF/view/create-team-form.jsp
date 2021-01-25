@@ -9,6 +9,8 @@
 		<title>Create</title>
 	</head>
 <body>
+	<h1>Create Team</h1>
+	<h3>Hoşgeldin ${currentUserName}</h3>
 	<form:form action="createTeam" modelAttribute="team" method="POST">
 		<table>
 			<tbody>
