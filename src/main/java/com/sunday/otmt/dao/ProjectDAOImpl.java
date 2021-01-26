@@ -21,7 +21,9 @@ public class ProjectDAOImpl implements GenericDAO<Project> {
 	
 	@Override
 	public Project save(Project entity) {
+		
 		entity.setId(idNumber++);
+		System.out.println("IdNumber: "+idNumber);
 		allProjects.add(entity);
 		return entity;
 	}

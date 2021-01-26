@@ -18,8 +18,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		auth.inMemoryAuthentication()
 			.withUser(users.username("kerem").password("kerem123").roles("USER"))
-			.withUser(users.username("bilgehan").password("bilbo123").roles("USER"))
-			.withUser(users.username("selim").password("selim123").roles("USER"));
+	        .withUser(users.username("bilgehan").password("bilbo123").roles("USER"))
+	        .withUser(users.username("mert").password("mert123").roles("USER"))
+	        .withUser(users.username("selim").password("selim123").roles("USER"))
+	        .withUser(users.username("ramo").password("selim123").roles("USER"));
+			
 			
 	}
 	
