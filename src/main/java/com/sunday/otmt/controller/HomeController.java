@@ -44,7 +44,8 @@ public class HomeController {
 		return "home";
 	}
 	@PostMapping("/details")
-	public String homeTeamDetails(@RequestParam("teamId") int teamId, HttpServletRequest req) {
+	public String homeTeamDetails(@RequestParam("teamId") int teamId, 
+								  HttpServletRequest req) {
 		
 		HttpSession session = req.getSession();
 		

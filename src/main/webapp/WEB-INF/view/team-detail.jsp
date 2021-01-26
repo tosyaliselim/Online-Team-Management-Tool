@@ -22,7 +22,7 @@
 		  <img src="${pageContext.request.contextPath}/resources/img/team.jpg" class="card-img-top" alt="Card image">
 		  <div class="card-body">
 		    <h5 id="teamName" class="card-title"> ${currentTeam.name}</h5>
-		    <p id="teamDesc" class="card-text">Description about team.</p>
+		    <p id="teamDesc" class="card-text">${currentTeam.description}</p>
 		  </div>
 		  <ul class="list-group list-group-flush">
 		    <li id="teamCategory" class="list-group-item"><strong>Category</strong> <br/>${currentTeam.category}</li>
@@ -40,9 +40,14 @@
     <button type="button" class="btn btn-sm btn-dark right-float" onclick="window.location.href='../proj/getForm'; return false;">Create Project</button>
   </div>
   <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-action"><b>Web Design</b></a>
-    <a href="#" class="list-group-item list-group-item-action"><strong>Python</strong></a>
-    <a href="#" class="list-group-item list-group-item-action"><strong>Java</strong></a>
+   	
+     	<c:forEach var="project" items="${currentTeam.teamProjects}">
+ 			<form:form action="${pageContext.request.contextPath}/proj/details" method="POST">
+	 			<input type="hidden" name="projectId" value="${project.id}"/>
+				<button type="submit" class="list-group-item list-group-item-action">${project.name}</button>
+			</form:form>
+   		</c:forEach>
+   	
   </div>
 </div>
 

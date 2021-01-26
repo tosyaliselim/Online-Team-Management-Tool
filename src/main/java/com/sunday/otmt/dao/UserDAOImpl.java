@@ -15,13 +15,7 @@ public class UserDAOImpl implements GenericDAO<User> {
 	private int idNumber;
 	
 	public UserDAOImpl() {
-		System.out.println("UserDAOImply constructor");
-		allUsers = new ArrayList<User>();
-		User user = new User("bilgehan", "Bilgehan", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
-		user.setId(1);
-		allUsers.add(user);
-		
-		idNumber = 2;
+		loadInitially();
 	}
 	
 	@Override
@@ -66,5 +60,24 @@ public class UserDAOImpl implements GenericDAO<User> {
 		}
 		return user;
 	}
+	
+	private void loadInitially(){
+        allUsers = new ArrayList<User>();
+        User user1 = new User("bilgehan", "Bilgehan", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
+        user1.setId(idNumber); idNumber++;
+        allUsers.add(user1);
+        User user2 = new User("kerem", "Kerem", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
+        user2.setId(idNumber); idNumber++;
+        allUsers.add(user2);
+        User user3 = new User("selim", "Selim", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
+        user3.setId(idNumber); idNumber++;
+        allUsers.add(user3);
+        User user4 = new User("mert", "Mert", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
+        user4.setId(idNumber); idNumber++;
+        allUsers.add(user4);
+        User user5 = new User("ramo", "Ramazan", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
+        user5.setId(idNumber); idNumber++;
+        allUsers.add(user5);
+    }
 	
 }

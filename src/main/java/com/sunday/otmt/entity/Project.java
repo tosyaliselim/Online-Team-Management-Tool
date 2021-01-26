@@ -1,6 +1,8 @@
 package com.sunday.otmt.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Project {
 	
@@ -12,14 +14,20 @@ public class Project {
 	private String description;
 	private User manager;
 	private Team ownerTeam;
+	private List<Task> projectTasks;
 	
-	public Project() {}
+	public Project() {
+		this.createdAt = new Date();
+		this.projectTasks = new ArrayList<Task>();
+	}
 
 	public Project(String name, String description, User manager, Team ownerTeam) {
 		this.name = name;
 		this.description = description;
 		this.manager = manager;
 		this.ownerTeam = ownerTeam;
+		this.createdAt = new Date();
+		this.projectTasks = new ArrayList<Task>();
 	}
 
 	public int getId() {
@@ -84,6 +92,18 @@ public class Project {
 
 	public void setOwnerTeam(Team ownerTeam) {
 		this.ownerTeam = ownerTeam;
+	}
+
+	public List<Task> getProjectTasks() {
+		return projectTasks;
+	}
+
+	public void setProjectTasks(List<Task> projectTasks) {
+		this.projectTasks = projectTasks;
+	}
+	
+	public void addTask(Task task) {
+		projectTasks.add(task);
 	}
 	
 }
