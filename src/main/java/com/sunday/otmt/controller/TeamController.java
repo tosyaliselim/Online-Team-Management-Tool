@@ -1,5 +1,8 @@
 package com.sunday.otmt.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,26 +29,43 @@ public class TeamController {
 	private GenericService<User> userService;
 
 	@GetMapping("/showForm")
-	public String showForm(Model model) {
+	public String showForm(Model model, HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("currentUser");
+		
+		if (user == null) return "redirect:/showLoginPage";
+		
 		model.addAttribute("team", new Team());
 
 		return "create-team-form";
 	}
 
 	@PostMapping("/createTeam")
-	public String createTeam(@ModelAttribute("team") Team team) {
+	public String createTeam(@ModelAttribute("team") Team team, HttpServletRequest req) {
 		
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("currentUser");
+		
+		if (user == null) return "redirect:/showLoginPage";
+		team.setManager(user);
+		team.addTeamMember(user);
 		teamService.save(team);
-		return "redirect:/team/all";
+		
+		session.setAttribute("currentTeam", team);
+		
+		return "redirect:/team/details";
 	}
 	
-	/*
-	@RequestMapping("/all")
+	@GetMapping("/details")
+	public String showTeam(Model model) {
+		return "team-detail";
+	}
+	
+	
+	@RequestMapping("/list")
 	public String showTeams(Model model) {
-		List<Team> allTeams = teamService.getAll();
-		model.addAttribute("teams", allTeams);
 		return "list-team";
 	}
-	*/
 	
 }

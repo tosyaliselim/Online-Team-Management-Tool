@@ -1,5 +1,6 @@
 package com.sunday.otmt.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,11 @@ public class User {
 	private List<String> roles;
 	private List<Team> registeredTeams;
 	
-	public User() { }
+	public User() {
+		this.createdAt = new Date();
+		this.roles = new ArrayList<String>();
+		this.registeredTeams = new ArrayList<Team>();
+	}
 
 	public User(String userName, String firstName, String lastName, String emailAddress, String phoneNumber) {
 		this.userName = userName;
@@ -23,6 +28,9 @@ public class User {
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
+		this.createdAt = new Date();
+		this.roles = new ArrayList<String>();
+		this.registeredTeams = new ArrayList<Team>();
 	}
 
 	public int getId() {

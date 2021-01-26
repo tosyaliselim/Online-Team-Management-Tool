@@ -15,8 +15,13 @@ public class UserDAOImpl implements GenericDAO<User> {
 	private int idNumber;
 	
 	public UserDAOImpl() {
+		System.out.println("UserDAOImply constructor");
 		allUsers = new ArrayList<User>();
-		idNumber = 1;
+		User user = new User("bilgehan", "Bilgehan", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
+		user.setId(1);
+		allUsers.add(user);
+		
+		idNumber = 2;
 	}
 	
 	@Override

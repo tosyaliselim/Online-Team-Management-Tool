@@ -1,5 +1,6 @@
 package com.sunday.otmt.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,13 +14,18 @@ public class Team {
 	private User manager;
 	private List<User> teamMembers;
 	
-	public Team() { }
+	public Team() {	
+		this.createdAt = new Date();
+		this.teamMembers = new ArrayList<User>();
+	}
 
 	public Team(String name, String description, String category, User manager) {
 		this.name = name;
 		this.description = description;
 		this.category = category;
 		this.manager = manager;
+		this.createdAt = new Date();
+		this.teamMembers = new ArrayList<User>();
 	}
 	
 	public int getId() {
