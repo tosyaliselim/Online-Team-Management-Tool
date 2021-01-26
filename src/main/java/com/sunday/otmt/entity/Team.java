@@ -13,10 +13,12 @@ public class Team {
 	private Date createdAt;
 	private User manager;
 	private List<User> teamMembers;
+	private List<Project> teamProjects;
 	
 	public Team() {	
 		this.createdAt = new Date();
 		this.teamMembers = new ArrayList<User>();
+		this.teamProjects = new ArrayList<Project>();
 	}
 
 	public Team(String name, String description, String category, User manager) {
@@ -26,6 +28,7 @@ public class Team {
 		this.manager = manager;
 		this.createdAt = new Date();
 		this.teamMembers = new ArrayList<User>();
+		this.teamProjects = new ArrayList<Project>();
 	}
 	
 	public int getId() {
@@ -84,8 +87,20 @@ public class Team {
 		this.teamMembers = teamMembers;
 	}
 	
+	public List<Project> getTeamProjects() {
+		return teamProjects;
+	}
+
+	public void setTeamProjects(List<Project> teamProjects) {
+		this.teamProjects = teamProjects;
+	}
+
 	public void addTeamMember(User teamMember) {
 		teamMembers.add(teamMember);
+	}
+	
+	public void addProject(Project project) {
+		teamProjects.add(project);
 	}
 	
 }

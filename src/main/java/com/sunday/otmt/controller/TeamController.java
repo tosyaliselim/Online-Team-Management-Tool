@@ -28,7 +28,7 @@ public class TeamController {
 	@Qualifier("userServiceImpl")
 	private GenericService<User> userService;
 
-	@GetMapping("/showForm")
+	@GetMapping("/getForm")
 	public String showForm(Model model, HttpServletRequest req) {
 		
 		HttpSession session = req.getSession();
@@ -41,13 +41,15 @@ public class TeamController {
 		return "create-team-form";
 	}
 
-	@PostMapping("/createTeam")
+	@PostMapping("/create")
 	public String createTeam(@ModelAttribute("team") Team team, HttpServletRequest req) {
 		
 		HttpSession session = req.getSession();
 		User user = (User) session.getAttribute("currentUser");
 		
 		if (user == null) return "redirect:/showLoginPage";
+		
+		user.addRegisteredTeam(team);
 		team.setManager(user);
 		team.addTeamMember(user);
 		teamService.save(team);

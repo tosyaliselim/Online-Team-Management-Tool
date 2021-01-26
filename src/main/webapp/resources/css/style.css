@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.card-header{
+     font-size: 22px;
+     font-weight: bold;
+ }
+
+#due-date{
+    color: red;
+}
+
+#teamName{
+  font-weight: bold;
+}
