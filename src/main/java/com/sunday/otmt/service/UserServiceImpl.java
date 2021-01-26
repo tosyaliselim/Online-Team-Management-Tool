@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sunday.otmt.dao.GenericDAO;
 import com.sunday.otmt.entity.User;
+import com.sunday.otmt.exception.EntityNotFoundException;
 
 @Service
 public class UserServiceImpl implements GenericService<User> {
@@ -22,18 +23,27 @@ public class UserServiceImpl implements GenericService<User> {
 	}
 
 	@Override
-	public User getEntityById(int id) {
+	public User getById(int id) {
 		return userDAO.getEntityById(id);
 	}
 
 	@Override
-	public List<User> getAllEntities() {
+	public List<User> getAll() {
 		return userDAO.getAllEntities();
 	}
 
 	@Override
 	public void delete(int id) {
 		userDAO.delete(id);
+	}
+	
+	@Override
+	public User getByName(String name) throws EntityNotFoundException {
+		User user = userDAO.getEntityByName(name);
+		if(user == null) {
+			throw new EntityNotFoundException();
+		}
+		return user;
 	}
 	
 }

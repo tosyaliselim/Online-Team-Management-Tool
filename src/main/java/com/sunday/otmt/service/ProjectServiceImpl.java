@@ -22,12 +22,12 @@ public class ProjectServiceImpl implements GenericService<Project> {
 	}
 
 	@Override
-	public Project getEntityById(int id) {
+	public Project getById(int id) {
 		return projectDAO.getEntityById(id);
 	}
 
 	@Override
-	public List<Project> getAllEntities() {
+	public List<Project> getAll() {
 		return projectDAO.getAllEntities();
 	}
 

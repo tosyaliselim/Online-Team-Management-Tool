@@ -8,5 +8,6 @@ public interface GenericDAO<T> {
 	public T getEntityById(int id);
 	public List<T> getAllEntities();
 	public void delete(int id);
+	default public T getEntityByName(String name) { return null; };
 	
 }

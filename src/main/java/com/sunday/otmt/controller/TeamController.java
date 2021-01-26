@@ -1,6 +1,7 @@
 package com.sunday.otmt.controller;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sunday.otmt.entity.Team;
@@ -28,30 +30,41 @@ public class TeamController {
 	@Qualifier("userServiceImpl")
 	private GenericService<User> userService;
 
-	@GetMapping("/showCreateTeamForm")
-	public String showCreateTeamForm(Model model) {
+	@GetMapping("/showForm")
+	public String showCreateTeamForm(Model model, HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//if (!(authentication instanceof AnonymousAuthenticationToken))
 	    String currentUserName = authentication.getName();
+	    
+	    User user = null;
+	    try {
+		    user = userService.getByName(currentUserName);
+	    } catch (Exception e) {
+			return "error-page";
+		}
+	    
+	    session.setAttribute("currentUser", user);
 		
-		model.addAttribute("currentUserName", currentUserName);
 		model.addAttribute("team", new Team());
 
 		return "create-team-form";
 	}
-	
-	@GetMapping("/createTeam")
+
+	@PostMapping("/createTeam")
 	public String createTeam(@ModelAttribute("team") Team team) {
 		teamService.save(team);
 		return "redirect:/team/all";
 	}
 	
+	/*
 	@RequestMapping("/all")
 	public String showTeams(Model model) {
-		List<Team> allTeams = teamService.getAllEntities();
+		List<Team> allTeams = teamService.getAll();
 		model.addAttribute("teams", allTeams);
 		return "list-team";
 	}
+	*/
 	
 }

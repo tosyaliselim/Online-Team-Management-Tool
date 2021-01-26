@@ -49,4 +49,17 @@ public class UserDAOImpl implements GenericDAO<User> {
 		}
 	}
 	
+	@Override
+	public User getEntityByName(String name) {
+		User user = null;
+		User tempUser = null;
+		Iterator<User> iterator = allUsers.iterator();
+		while(iterator.hasNext()) {
+			tempUser = iterator.next();
+			if(tempUser.getUserName().equals(name))
+				user = tempUser;
+		}
+		return user;
+	}
+	
 }

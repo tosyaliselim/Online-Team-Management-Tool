@@ -22,12 +22,12 @@ public class TeamServiceImpl implements GenericService<Team> {
 	}
 
 	@Override
-	public Team getEntityById(int id) {
+	public Team getById(int id) {
 		return teamDAO.getEntityById(id);
 	}
 
 	@Override
-	public List<Team> getAllEntities() {
+	public List<Team> getAll() {
 		return teamDAO.getAllEntities();
 	}
 
