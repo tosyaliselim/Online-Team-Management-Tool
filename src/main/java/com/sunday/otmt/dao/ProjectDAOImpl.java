@@ -1,54 +1,54 @@
 package com.sunday.otmt.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sunday.otmt.entity.Project;
 
 @Repository
 public class ProjectDAOImpl implements GenericDAO<Project> {
-	
-	private List<Project> allProjects;
-	private int idNumber;
-	
-	public ProjectDAOImpl() {
-		allProjects = new ArrayList<Project>();
-		idNumber=1;
+
+	private final SessionFactory sessionFactory;
+
+	@Autowired
+	public ProjectDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
-	
+
 	@Override
 	public Project save(Project entity) {
-		
-		entity.setId(idNumber++);
-		System.out.println("IdNumber: "+idNumber);
-		allProjects.add(entity);
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(entity);
 		return entity;
 	}
 
 	@Override
 	public Project getEntityById(int id) {
-		for(Project project : allProjects) {
-			if(project.getId() == id)
-				return project;
-		}
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		Project project = session.get(Project.class, id);
+		return project;
 	}
 
 	@Override
 	public List<Project> getAllEntities() {
-		return allProjects;
+		Session session = sessionFactory.getCurrentSession();
+		List<Project> projects = session.createQuery(
+				"from Project p " +
+				"left join fetch p.projectTasks",
+				Project.class).getResultList();
+
+		return projects;
 	}
 
 	@Override
 	public void delete(int id) {
-		Iterator<Project> iterator = allProjects.iterator();
-		while(iterator.hasNext()) {
-			if(iterator.next().getId() == id)
-				iterator.remove();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		Project project = session.get(Project.class, id);
+		session.delete(project);
 	}
 	
 }

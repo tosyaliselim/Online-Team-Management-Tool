@@ -1,7 +1,5 @@
 package com.sunday.otmt.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -11,15 +9,18 @@ import org.springframework.stereotype.Repository;
 
 import com.sunday.otmt.entity.User;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 @Repository
 public class UserDAOImpl implements GenericDAO<User> {
 
+	private final SessionFactory sessionFactory;
+
 	@Autowired
-	private SessionFactory sessionFactory;
-	
+	public UserDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
 	@Override
 	public User save(User newUser) {
 		Session session = sessionFactory.getCurrentSession();

@@ -17,9 +17,13 @@ import javax.persistence.TypedQuery;
 @Repository
 public class TeamDAOImpl implements GenericDAO<Team> {
 	
+	private final SessionFactory sessionFactory;
+
 	@Autowired
-	private SessionFactory sessionFactory;
-	
+	public TeamDAOImpl(SessionFactory sessionFactory){
+		this.sessionFactory = sessionFactory;
+	}
+
 	@Override
 	public Team save(Team newTeam) {
 		Session session = sessionFactory.getCurrentSession();
