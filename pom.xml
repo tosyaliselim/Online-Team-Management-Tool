@@ -81,9 +81,29 @@
 	    <artifactId>c3p0</artifactId>
 	    <version>0.9.5.5</version>
 	</dependency>
-	
-	
-	<!-- JUnit -->
+
+	  <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-orm</artifactId>
+		  <version>${springframework.version}</version>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-core</artifactId>
+		  <version>5.4.23.Final</version>
+	  </dependency>
+
+	  <!-- Project Lombok Support -->
+	  <dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.18.16</version>
+		  <scope>provided</scope>
+	  </dependency>
+
+
+	  <!-- JUnit -->
 	<dependency>
 	  <groupId>junit</groupId>
 	  <artifactId>junit</artifactId>

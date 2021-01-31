@@ -1,6 +1,11 @@
 package com.sunday.otmt.config;
 
+import com.mchange.v2.codegen.bean.Property;
+import com.sunday.otmt.converter.StringToDateConverter;
+import org.springframework.beans.PropertyEditorRegistrar;
+import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +18,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.sunday.otmt.converter.StringToUserConverter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages="com.sunday.otmt")
@@ -21,9 +29,13 @@ public class WebAppConfig implements WebMvcConfigurer {
 	@Autowired
 	private StringToUserConverter stringToUserConverter;
 
+	@Autowired
+	private StringToDateConverter stringToDateConverter;
+
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(stringToUserConverter);
+		registry.addConverter(stringToDateConverter);
 	}
 	
 	@Override
@@ -42,6 +54,18 @@ public class WebAppConfig implements WebMvcConfigurer {
 		return viewResolver;
 		
 	}
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

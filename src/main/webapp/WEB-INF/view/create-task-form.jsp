@@ -26,17 +26,17 @@
 				<label for="taskDescLabel" class="form-label">Description</label>
 				<form:textarea path="description" class="form-control" id="descTextArea" placeholder="Description for the task" rows="3"></form:textarea>
 			</div>
-			<!-- 
+
 			<div class="mb-3">
 			  <label for="example-date-input" class="form-label">Start Date</label>
-		      <form:input path="startDate" class="form-control" type="date"></form:input>
+		      <form:input path="startDate" class="form-control" type="date" ></form:input>
 			</div>
-			
+
 			<div class="mb-3">
 			  <label for="example-date-input" class="form-label">End Date</label>
-		      <form:input path="finishDate" class="form-control" type="date"></form:input>
+		      <form:input path="finishDate" class="form-control" type="date" ></form:input>
 			</div>
- 			 -->
+
 			<label for="taskRespondentLabel" class="form-label">Respondents:</label>
 			<div class="form-check form-check-inline">
 				<c:forEach var="teamMember" items="${teamMembers}">
