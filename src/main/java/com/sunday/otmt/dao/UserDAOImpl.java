@@ -22,11 +22,11 @@ public class UserDAOImpl implements GenericDAO<User> {
 	}
 
 	@Override
-	public User save(User newUser) {
+	public User save(User user) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(newUser);
+		session.saveOrUpdate(user);
 
-		return newUser;
+		return user;
 	}
 
 	@Override

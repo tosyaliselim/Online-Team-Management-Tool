@@ -20,10 +20,10 @@ public class ProjectDAOImpl implements GenericDAO<Project> {
 	}
 
 	@Override
-	public Project save(Project entity) {
+	public Project save(Project project) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(entity);
-		return entity;
+		session.saveOrUpdate(project);
+		return project;
 	}
 
 	@Override

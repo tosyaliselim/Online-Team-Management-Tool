@@ -25,10 +25,10 @@ public class TeamDAOImpl implements GenericDAO<Team> {
 	}
 
 	@Override
-	public Team save(Team newTeam) {
+	public Team save(Team team) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(newTeam);
-		return newTeam;
+		session.saveOrUpdate(team);
+		return team;
 	}
 
 	@Override
