@@ -33,8 +33,9 @@
 	      </div>
 	    </div>
 	
-	    <div class="col-4">
+	    <div class="col-6">
     	  <h1 class="display-6">TASKS</h1>
+ 	  	  <!-- 
 	      <div class="card text-dark bg-light mb-3" >
 	        <div class="card-header">Task #1</div>
 	        <div class="card-body">
@@ -46,6 +47,7 @@
 	          <small id="due-date">26.01.2021 - 12.00</small>
 	        </div>
 	      </div>
+	       -->
 	    </div>
 	
 	    <div class="col">

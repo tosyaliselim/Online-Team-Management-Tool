@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,8 +17,9 @@
 
 
 <div class="container">
+	<div class="row"><h3 id="teamName" class="card-title">TEAM DETAILS</h3></div>
   <div class="row">
-    <div class="col">
+    <div class="col-3">
 		<div class="card">
 		  <img src="${pageContext.request.contextPath}/resources/img/team.jpg" class="card-img-top" alt="Card image">
 		  <div class="card-body">
@@ -26,12 +28,12 @@
 		  </div>
 		  <ul class="list-group list-group-flush">
 		    <li id="teamCategory" class="list-group-item"><strong>Category</strong> <br/>${currentTeam.category}</li>
-		    <li id="createdData" class="list-group-item"><strong>Created Date</strong> <br/>20.01.2020</li>
+		    <li id="createdData" class="list-group-item"><strong>Created Date</strong> <br/><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${currentTeam.createdAt}"/></li>
 		  </ul>
 		</div>
     </div>
         <!-- 2. kolon -->
-<div class="col-4">
+<div class="col">
 
       <!-- Projects için list -->
 <div class="card" >
@@ -52,10 +54,10 @@
 </div>
 
     </div>
-    <div class="col">
+    <div class="col-4">
       
 
-<div class="card" style="width: 20rem;">
+<div class="card">
   <div class="card-header">
     Team Members
     <button type="button" class="btn btn-sm btn-dark right-float">Send Invitation</button>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 @Controller
@@ -30,7 +31,7 @@ public class ProjectController {
 	@Autowired
 	@Qualifier("projectServiceImpl")
 	private GenericService<Project> projectService;
-
+	
     @GetMapping("/getForm")
     public String getProjectForm(HttpServletRequest req, Model model){
 
@@ -103,6 +104,7 @@ public class ProjectController {
     @PostMapping("/createTask")
     public String createTask(HttpServletRequest req,
             				@ModelAttribute("task") Task task) {
+
     	HttpSession session = req.getSession();
         User currentUser = (User)session.getAttribute("currentUser");
         if (currentUser == null)
@@ -114,7 +116,7 @@ public class ProjectController {
         Project currentProject = (Project) session.getAttribute("currentProject");
         if (currentProject == null)
             return "redirect:/team/details";
-    	
+        
         currentProject.addTask(task);
         
     	return "project-detail";
