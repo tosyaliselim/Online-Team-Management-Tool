@@ -1,8 +1,9 @@
 package com.sunday.otmt.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.*;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,18 +15,47 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 public class Task {
 
-
-	// TODO: Make it an Hibernate Entity
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "TaskId")
 	private int id;
+	
+	@Column(name = "TaskTitle")
 	private String taskTitle;
+	
+	@Column(name = "Description")
 	private String description;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "CreatedAt")
 	private Date createdAt;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "StartDate")
 	private Date startDate;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "FinishDate")
 	private Date finishDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	})
+	@JoinTable(
+			name = "ASSIGNED_TASK",
+			joinColumns = { @JoinColumn("TaskId") },
+			inverseJoinColumns = { @JoinColumn("UserId") }
+	)
 	private List<User> respondents;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	})
+	@JoinColumn(name = "OwnerProject")
 	private Project ownerProject;
 	
 

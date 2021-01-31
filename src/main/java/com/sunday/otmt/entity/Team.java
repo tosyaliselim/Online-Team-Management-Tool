@@ -6,21 +6,54 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Getter @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Team {
 
-	// TODO: Make it an Hibernate Entity
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "TeamId")
 	private int id;
-	private String name;	
+	
+	@Column(name = "Name")
+	private String name;
+	
+	@Column(name = "Description")
 	private String description;
+	
+	@Column(name = "Category")
 	private String category;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "CreatedAt")
 	private Date createdAt;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	})
+	@JoinColumn(name = "TeamManagerId")
 	private User manager;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	})
+	@JoinTable(
+			name="TEAM_MEMBER",
+			joinColumns = { @JoinColumn("TeamId") },
+			inverseJoinColumns = { @JoinColumn("UserId") }
+	)
 	private List<User> teamMembers;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	}, mappedBy = "ownerTeam")
 	private List<Project> teamProjects;
 	
 	public void addTeamMember(User teamMember) {
