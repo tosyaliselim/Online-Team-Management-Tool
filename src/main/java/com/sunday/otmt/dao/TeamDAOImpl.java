@@ -4,49 +4,53 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.sunday.otmt.entity.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sunday.otmt.entity.Team;
 
+import javax.persistence.TypedQuery;
+
 @Repository
 public class TeamDAOImpl implements GenericDAO<Team> {
 	
-	private List<Team> allTeams;
-	private int idNumber;
-	
-	public TeamDAOImpl() {
-		allTeams = new ArrayList<Team>();
-		idNumber = 1;
-	}
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	@Override
-	public Team save(Team entity) {
-		entity.setId(idNumber++);
-		allTeams.add(entity);
-		return entity;
+	public Team save(Team newTeam) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(newTeam);
+		return newTeam;
 	}
 
 	@Override
 	public Team getEntityById(int id) {
-		for(Team team : allTeams) {
-			if(team.getId() == id) 
-				return team;
-		}
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		Team user = session.get(Team.class, id);
+		return user;
 	}
 
 	@Override
 	public List<Team> getAllEntities() {
-		return allTeams;
+		Session session = sessionFactory.getCurrentSession();
+		List<Team> teams = session.createQuery(
+				"from Team t " +
+						"left join fetch t.teamMembers " +
+						"left join fetch t.teamProjects", Team.class
+		).getResultList();
+
+		return teams;
 	}
 
 	@Override
 	public void delete(int id) {
-		Iterator<Team> iterator = allTeams.iterator();
-		while(iterator.hasNext()) {
-			if(iterator.next().getId() == id) 
-				iterator.remove();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		Team team = session.get(Team.class, id);
+		session.delete(team);
 	}
 	
 }
