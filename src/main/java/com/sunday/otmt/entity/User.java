@@ -1,116 +1,72 @@
 package com.sunday.otmt.entity;
 
-import java.util.ArrayList;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+
+
+@Entity
+@Table(name = "USER")
+@Getter @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "UserId")
 	private int id;
+
+	@Column(name = "UserName")
 	private String userName;
+
+	@Column(name = "FirstName")
 	private String firstName;
+
+	@Column(name = "LastName")
 	private String lastName;
+
+	@Column(name = "EmailAddress")
 	private String emailAddress;
+
+	@Column(name = "PhoneNumber")
 	private String phoneNumber;
+
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat("yyyy/MM/dd")
 	private Date createdAt;
-	private List<String> roles;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	})
+	@JoinTable(
+			name = "REGISTERED_TEAMS",
+			joinColumns = { @JoinColumn("UserId") },
+			inverseJoinColumns = { @JoinColumn("TeamId") }
+	)
 	private List<Team> registeredTeams;
-	
-	public User() {
-		this.createdAt = new Date();
-		this.roles = new ArrayList<String>();
-		this.registeredTeams = new ArrayList<Team>();
-	}
 
-	public User(String userName, String firstName, String lastName, String emailAddress, String phoneNumber) {
-		this.userName = userName;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailAddress = emailAddress;
-		this.phoneNumber = phoneNumber;
-		this.createdAt = new Date();
-		this.roles = new ArrayList<String>();
-		this.registeredTeams = new ArrayList<Team>();
-	}
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
+	})
+	@JoinTable(
+			name = "ASSIGNED_TASK",
+			joinColumns = { @JoinColumn("UserId") },
+			inverseJoinColumns = { @JoinColumn("TaskId") }
+	)
+	private List<Task> assignedTasks;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
-	
-	public List<Team> getRegisteredTeams() {
-		return registeredTeams;
-	}
-
-	public void setRegisteredTeams(List<Team> registeredTeams) {
-		this.registeredTeams = registeredTeams;
-	}
-
-	public void addRole(String role) {
-		roles.add(role);
-	}
-	
 	public void addRegisteredTeam(Team team) {
 		registeredTeams.add(team);
+	}
+
+	public void addAssignedTask(Task newTask) {
+		this.assignedTasks.add(newTask);
 	}
 
 }
