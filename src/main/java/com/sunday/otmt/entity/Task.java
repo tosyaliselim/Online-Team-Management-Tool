@@ -4,20 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Task {
 	
 	private int id;
 	private String taskTitle;
 	private String description;
 	private Date createdAt;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date finishDate;
 	private List<User> respondents;
 	private Project ownerProject;
 	
 	public Task() {
 		this.createdAt = new Date();
-		this.startDate = new Date();
 		this.respondents = new ArrayList<User>();
 	}
 
@@ -26,7 +29,6 @@ public class Task {
 		this.description = description;
 		this.ownerProject = ownerProject;
 		this.createdAt = new Date();
-		this.startDate = new Date();
 		this.respondents = new ArrayList<User>();
 	}
 
