@@ -4,80 +4,66 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sunday.otmt.entity.User;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 @Repository
 public class UserDAOImpl implements GenericDAO<User> {
 
-	private List<User> allUsers;
-	private int idNumber;
-	
-	public UserDAOImpl() {
-		loadInitially();
-	}
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	@Override
-	public User save(User entity) {
-		entity.setId(idNumber++);
-		allUsers.add(entity);
-		return entity;
+	public User save(User newUser) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(newUser);
+
+		return newUser;
 	}
 
 	@Override
 	public User getEntityById(int id) {
-		for(User user : allUsers) {
-			if(user.getId() == id)
-				return user;
-		}
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		User user = session.get(User.class, id);
+		return user;
 	}
 
 	@Override
 	public List<User> getAllEntities() {
-		return allUsers;
+		Session session = sessionFactory.getCurrentSession();
+		List<User> users = session.createQuery(
+				"from User u " +
+				"left join fetch u.assignedTasks left join fetch " +
+				"left join fetch u.registeredTeams", User.class).getResultList();
+
+		return users;
 	}
 
 	@Override
 	public void delete(int id) {
-		Iterator<User> iterator = allUsers.iterator();
-		while(iterator.hasNext()) {
-			if(iterator.next().getId() == id)
-				iterator.remove();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		User user = session.get(User.class, id);
+		session.delete(user);
 	}
 	
 	@Override
 	public User getEntityByName(String name) {
-		User user = null;
-		User tempUser = null;
-		Iterator<User> iterator = allUsers.iterator();
-		while(iterator.hasNext()) {
-			tempUser = iterator.next();
-			if(tempUser.getUserName().equals(name))
-				user = tempUser;
-		}
+		Session session = sessionFactory.getCurrentSession();
+
+		TypedQuery<User> query = session.createQuery(
+				"from User u " +
+				"where u.userName =: id", User.class);
+		query.setParameter("id", name);
+
+		User user = query.getSingleResult();
 		return user;
 	}
-	
-	private void loadInitially(){
-        allUsers = new ArrayList<User>();
-        User user1 = new User("bilgehan", "Bilgehan", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
-        user1.setId(idNumber); idNumber++;
-        allUsers.add(user1);
-        User user2 = new User("kerem", "Kerem", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
-        user2.setId(idNumber); idNumber++;
-        allUsers.add(user2);
-        User user3 = new User("selim", "Selim", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
-        user3.setId(idNumber); idNumber++;
-        allUsers.add(user3);
-        User user4 = new User("mert", "Mert", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
-        user4.setId(idNumber); idNumber++;
-        allUsers.add(user4);
-        User user5 = new User("ramo", "Ramazan", "Kaya", "bilgehankaya@protonmail.com", "05170000055");
-        user5.setId(idNumber); idNumber++;
-        allUsers.add(user5);
-    }
 	
 }
