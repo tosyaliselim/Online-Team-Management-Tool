@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -44,20 +45,16 @@ public class Task {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "FinishDate")
 	private Date finishDate;
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "ASSIGNED_TASK",
 			joinColumns = { @JoinColumn(name = "TaskId") },
 			inverseJoinColumns = { @JoinColumn(name = "UserId") }
 	)
 	private List<User> respondents;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "OwnerProject")
 	private Project ownerProject;
 	

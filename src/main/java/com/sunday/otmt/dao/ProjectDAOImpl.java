@@ -43,7 +43,8 @@ public class ProjectDAOImpl implements GenericDAO<Project> {
 		Session session = sessionFactory.getCurrentSession();
 		List<Project> projects = session.createQuery(
 				"from Project p " +
-				"left join fetch p.projectTasks",
+				"left join fetch p.projectTasks t " +
+				"left join fetch t.respondents",
 				Project.class).getResultList();
 
 		return projects;

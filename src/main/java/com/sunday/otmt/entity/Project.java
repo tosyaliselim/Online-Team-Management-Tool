@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -44,22 +45,17 @@ public class Project {
 	
 	@Column(name = "Description")
 	private String description;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ProjectManagerId")
 	private User manager;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "OwnerTeam")
 	private Team ownerTeam;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	}, mappedBy = "ownerProject")
+
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerProject")
 	private List<Task> projectTasks;
 
 	public void addTask(Task task) {

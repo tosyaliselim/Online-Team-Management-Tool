@@ -44,8 +44,8 @@
   <div class="list-group">
    	
      	<c:forEach var="project" items="${currentTeam.teamProjects}">
- 			<form:form action="${pageContext.request.contextPath}/proj/details" method="POST">
-	 			<input type="hidden" name="projectId" value="${project.id}"/>
+ 			<form:form action="${pageContext.request.contextPath}/proj/details" method="GET">
+	 			<input type="hiqden" name="projectId" value="${project.id}"/>
 				<button type="submit" class="list-group-item list-group-item-action">${project.name}</button>
 			</form:form>
    		</c:forEach>
