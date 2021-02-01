@@ -1,5 +1,6 @@
 package com.sunday.otmt.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
+@Table(name = "TASK")
 @Getter
 @Setter
 @Builder
@@ -47,8 +50,8 @@ public class Task {
 	})
 	@JoinTable(
 			name = "ASSIGNED_TASK",
-			joinColumns = { @JoinColumn("TaskId") },
-			inverseJoinColumns = { @JoinColumn("UserId") }
+			joinColumns = { @JoinColumn(name = "TaskId") },
+			inverseJoinColumns = { @JoinColumn(name = "UserId") }
 	)
 	private List<User> respondents;
 	
@@ -60,6 +63,9 @@ public class Task {
 	
 
 	public void addRespondent(User user) {
+		if (respondents == null){
+			respondents = new ArrayList<>();
+		}
 		respondents.add(user);
 	}
 	

@@ -1,18 +1,13 @@
 package com.sunday.otmt.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import com.sunday.otmt.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sunday.otmt.entity.Team;
-
-import javax.persistence.TypedQuery;
 
 @Repository
 public class TeamDAOImpl implements GenericDAO<Team> {

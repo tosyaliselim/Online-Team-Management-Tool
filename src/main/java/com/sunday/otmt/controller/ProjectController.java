@@ -1,9 +1,9 @@
 package com.sunday.otmt.controller;
 
+import com.sunday.otmt.entity.User;
 import com.sunday.otmt.entity.Project;
 import com.sunday.otmt.entity.Task;
 import com.sunday.otmt.entity.Team;
-import com.sunday.otmt.entity.User;
 import com.sunday.otmt.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/proj")
@@ -44,7 +45,7 @@ public class ProjectController {
         if (currentTeam == null)
             return "redirect:/home";
 
-        List<User> teamMembers = currentTeam.getTeamMembers();
+        Set<User> teamMembers = currentTeam.getTeamMembers();
         model.addAttribute("teamMembers", teamMembers);
 
         Project project = new Project();
@@ -95,7 +96,7 @@ public class ProjectController {
         Task task = new Task();
         model.addAttribute("task", task);
         
-    	List<User> teamMembers = currentTeam.getTeamMembers();
+    	Set<User> teamMembers = currentTeam.getTeamMembers();
     	model.addAttribute("teamMembers", teamMembers);
     	
     	return "create-task-form";

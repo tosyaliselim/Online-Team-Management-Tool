@@ -29,7 +29,12 @@ public class ProjectDAOImpl implements GenericDAO<Project> {
 	@Override
 	public Project getEntityById(int id) {
 		Session session = sessionFactory.getCurrentSession();
-		Project project = session.get(Project.class, id);
+		Project project = session.createQuery(
+				"from Project p " +
+						"left join fetch p.projectTasks " +
+						"where p.id =: projId", Project.class)
+				.setParameter("projId", id)
+				.getSingleResult();
 		return project;
 	}
 

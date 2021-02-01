@@ -2,14 +2,17 @@ package com.sunday.otmt.entity;
 
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
+@Table(name = "TEAM")
 @Getter @Setter
 @Builder
 @NoArgsConstructor
@@ -46,21 +49,27 @@ public class Team {
 	})
 	@JoinTable(
 			name="TEAM_MEMBER",
-			joinColumns = { @JoinColumn("TeamId") },
-			inverseJoinColumns = { @JoinColumn("UserId") }
+			joinColumns = { @JoinColumn(name = "TeamId") },
+			inverseJoinColumns = { @JoinColumn(name = "UserId") }
 	)
-	private List<User> teamMembers;
+	private Set<User> teamMembers;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = {
 			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
 	}, mappedBy = "ownerTeam")
-	private List<Project> teamProjects;
+	private Set<Project> teamProjects;
 	
 	public void addTeamMember(User teamMember) {
+		if (teamMembers == null) {
+			teamMembers = new HashSet<>();
+		}
 		teamMembers.add(teamMember);
 	}
 	
 	public void addProject(Project project) {
+		if (teamProjects == null){
+			teamProjects = new HashSet<>();
+		}
 		teamProjects.add(project);
 	}
 	
