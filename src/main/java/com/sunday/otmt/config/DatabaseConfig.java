@@ -45,8 +45,9 @@ public class DatabaseConfig {
         factoryBean.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
 
         Properties pros = new Properties();
-        pros.put("show_sql", "true");
-        pros.put("hbm2ddl.auto", "create");
+        pros.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        pros.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        pros.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         factoryBean.setHibernateProperties(pros);
         factoryBean.setDataSource(dataSource);
 
