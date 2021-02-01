@@ -46,7 +46,7 @@
 								${task.description} <br/> <!-- Task description -->
 								<b>Members:</b>
 								<c:forEach var="taskMember" items="${task.respondents}">
-				                    ${taskMember.firstName} ${taskMember.lastName}<br/> <!-- Task members - multiple olabilir. -->
+				                    ${taskMember.firstName} ${taskMember.lastName}<br/>
    				 				</c:forEach>
 								<b>Start Date:</b> <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${task.startDate}"/> <br/> <!-- Task start date --> 
 								<b>Deadline:</b> <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${task.finishDate}"/> <br/> <!-- Task end date -->

@@ -45,7 +45,7 @@ public class ProjectController {
         if (currentTeam == null)
             return "redirect:/home";
 
-        Set<User> teamMembers = currentTeam.getTeamMembers();
+        List<User> teamMembers = currentTeam.getTeamMembers();
         model.addAttribute("teamMembers", teamMembers);
 
         Project project = new Project();
@@ -70,15 +70,12 @@ public class ProjectController {
             return "error-page";
         
         project.setOwnerTeam(team);
-        Project updatedProject = projectService.save(project);
-        
-        System.out.println("Updated project id: "+ updatedProject.getId());
-        
-        team.addProject(updatedProject);
+        team.addProject(project);
+        teamService.save(team);
         
         session.setAttribute("currentTeam", team);
         
-        return "redirect:/team/details";
+        return "team-detail";
     }
     
     @GetMapping("/getTaskForm")
@@ -96,7 +93,7 @@ public class ProjectController {
         Task task = new Task();
         model.addAttribute("task", task);
         
-    	Set<User> teamMembers = currentTeam.getTeamMembers();
+    	List<User> teamMembers = currentTeam.getTeamMembers();
     	model.addAttribute("teamMembers", teamMembers);
     	
     	return "create-task-form";
@@ -117,13 +114,14 @@ public class ProjectController {
         Project currentProject = (Project) session.getAttribute("currentProject");
         if (currentProject == null)
             return "redirect:/team/details";
-        
+
         currentProject.addTask(task);
+        projectService.save(currentProject);
         
     	return "project-detail";
     }
     
-	@PostMapping("/details")
+	@GetMapping("/details")
 	public String showTeam(@RequestParam("projectId") int projectId, 
 			  			   HttpServletRequest req) {
 		

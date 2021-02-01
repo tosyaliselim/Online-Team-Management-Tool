@@ -1,13 +1,11 @@
 package com.sunday.otmt.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "USER")
@@ -42,36 +40,32 @@ public class User {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date createdAt;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "REGISTERED_TEAMS",
+			name = "TEAM_MEMBER",
 			joinColumns = { @JoinColumn(name = "UserId") },
 			inverseJoinColumns = { @JoinColumn(name = "TeamId") }
 	)
-	private Set<Team> registeredTeams;
+	private List<Team> registeredTeams;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "ASSIGNED_TASK",
 			joinColumns = { @JoinColumn(name = "UserId") },
 			inverseJoinColumns = { @JoinColumn(name = "TaskId") }
 	)
-	private Set<Task> assignedTasks;
+	private List<Task> assignedTasks;
 
 	public void addRegisteredTeam(Team team) {
 		if (registeredTeams == null){
-			registeredTeams = new HashSet<>();
+			registeredTeams = new ArrayList<>();
 		}
 		registeredTeams.add(team);
 	}
 
 	public void addAssignedTask(Task newTask) {
 		if (assignedTasks == null){
-			assignedTasks = new HashSet<>();
+			assignedTasks = new ArrayList<>();
 		}
 		this.assignedTasks.add(newTask);
 	}

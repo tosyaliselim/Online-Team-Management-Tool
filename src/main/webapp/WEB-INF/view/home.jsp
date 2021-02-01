@@ -32,33 +32,39 @@
 	        </ul>
 	      </div>
 	    </div>
-	
+
 	    <div class="col-6">
     	  <h1 class="display-6">TASKS</h1>
- 	  	  <!-- 
-	      <div class="card text-dark bg-light mb-3" >
-	        <div class="card-header">Task #1</div>
-	        <div class="card-body">
-	          <h5 class="card-title">Create Styles</h5>
-	          <p class="card-text">Create sytlessheets for OTMT project.</p>
-	        </div>
-	        <div class="card-footer">
-	          <small><strong>Due Date</strong></small> <br/>
-	          <small id="due-date">26.01.2021 - 12.00</small>
-	        </div>
-	      </div>
-	       -->
+
+			<form:form action="details" method="POST">
+				<c:set var="counter" value="1" scope="page"/>
+				<c:forEach var="task" items="${currentUser.assignedTasks}">
+					<input type="hidden" name="teamId" value="${task.id}"/>
+	      			<div class="card text-dark bg-light mb-3" >
+						<div class="card-header">Task #${counter}</div>
+							<c:set var="counter" value="${counter + 1}" scope="page"/>
+							<div class="card-body">
+							<h5 class="card-title">${task.taskTitle}</h5>
+							<p class="card-text">${task.description}</p>
+						</div>
+						<div class="card-footer">
+						  <small><strong>Due Date</strong></small> <br/>
+						  <small id="due-date">${task.finishDate}</small>
+						</div>
+	    		  	</div>
+				</c:forEach>
+			</form:form>
 	    </div>
 	
 	    <div class="col">
 	      <div class="list-group" style="width: 18rem;">
 			<h1 class="display-6">TEAMS</h1>
-	      	<form:form action="details" method="POST">
 		      	<c:forEach var="team" items="${currentUser.registeredTeams}">
-		      		<input type="hidden" name="teamId" value="${team.id}"/>
-	      			<button type="submit" class="list-group-item list-group-item-dark list-group-item-action mb-2">${team.name}</button>
-	      		</c:forEach>
-	      	</form:form>
+					<form:form action="${pageContext.request.contextPath}/team/details" method="GET">
+						<input type="hidden" name="teamId" value="${team.id}"/>
+		      			<button type="submit" class="list-group-item list-group-item-dark list-group-item-action mb-2">${team.name}</button>
+					</form:form>
+				</c:forEach>
 	      	<button type="button" class="btn btn-dark" onclick="window.location.href='team/getForm'; return false;">Create Team</button>
 	      </div>
 	    </div>

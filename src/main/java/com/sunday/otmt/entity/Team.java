@@ -2,13 +2,11 @@ package com.sunday.otmt.entity;
 
 import lombok.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -37,38 +35,34 @@ public class Team {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "CreatedAt")
 	private Date createdAt;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TeamManagerId")
 	private User manager;
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	})
+
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name="TEAM_MEMBER",
 			joinColumns = { @JoinColumn(name = "TeamId") },
 			inverseJoinColumns = { @JoinColumn(name = "UserId") }
 	)
-	private Set<User> teamMembers;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
-	}, mappedBy = "ownerTeam")
-	private Set<Project> teamProjects;
+	private List<User> teamMembers;
+
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerTeam")
+	private List<Project> teamProjects;
 	
 	public void addTeamMember(User teamMember) {
 		if (teamMembers == null) {
-			teamMembers = new HashSet<>();
+			teamMembers = new ArrayList<>();
 		}
 		teamMembers.add(teamMember);
 	}
-	
+
 	public void addProject(Project project) {
 		if (teamProjects == null){
-			teamProjects = new HashSet<>();
+			teamProjects = new ArrayList<>();
+
 		}
 		teamProjects.add(project);
 	}
