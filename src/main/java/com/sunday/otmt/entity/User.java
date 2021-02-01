@@ -5,13 +5,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-
-
+import java.util.Set;
 
 @Entity
 @Table(name = "USER")
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,7 +39,7 @@ public class User {
 	private String phoneNumber;
 
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat("yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date createdAt;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {
@@ -46,26 +47,32 @@ public class User {
 	})
 	@JoinTable(
 			name = "REGISTERED_TEAMS",
-			joinColumns = { @JoinColumn("UserId") },
-			inverseJoinColumns = { @JoinColumn("TeamId") }
+			joinColumns = { @JoinColumn(name = "UserId") },
+			inverseJoinColumns = { @JoinColumn(name = "TeamId") }
 	)
-	private List<Team> registeredTeams;
+	private Set<Team> registeredTeams;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {
 			CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH
 	})
 	@JoinTable(
 			name = "ASSIGNED_TASK",
-			joinColumns = { @JoinColumn("UserId") },
-			inverseJoinColumns = { @JoinColumn("TaskId") }
+			joinColumns = { @JoinColumn(name = "UserId") },
+			inverseJoinColumns = { @JoinColumn(name = "TaskId") }
 	)
-	private List<Task> assignedTasks;
+	private Set<Task> assignedTasks;
 
 	public void addRegisteredTeam(Team team) {
+		if (registeredTeams == null){
+			registeredTeams = new HashSet<>();
+		}
 		registeredTeams.add(team);
 	}
 
 	public void addAssignedTask(Task newTask) {
+		if (assignedTasks == null){
+			assignedTasks = new HashSet<>();
+		}
 		this.assignedTasks.add(newTask);
 	}
 

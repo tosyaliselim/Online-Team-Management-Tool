@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
+import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
@@ -38,16 +39,17 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean localSessionFactoryBean() throws PropertyVetoException {
+    @Autowired
+    public LocalSessionFactoryBean localSessionFactoryBean(DataSource dataSource) throws PropertyVetoException {
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
+        factoryBean.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
 
         Properties pros = new Properties();
         pros.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        pros.put("hibernate.packagesToScan", env.getProperty("hibernate.packagesToScan"));
         pros.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         pros.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         factoryBean.setHibernateProperties(pros);
-        factoryBean.setDataSource(comboPooledDataSource());
+        factoryBean.setDataSource(dataSource);
 
         return factoryBean;
     }

@@ -10,7 +10,8 @@ import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+@Entity
+@Table(name = "PROJECT")
 @Getter
 @Setter
 @Builder
@@ -62,6 +63,9 @@ public class Project {
 	private List<Task> projectTasks;
 
 	public void addTask(Task task) {
+		if (projectTasks == null) {
+			projectTasks = new ArrayList<>();
+		}
 		projectTasks.add(task);
 	}
 	

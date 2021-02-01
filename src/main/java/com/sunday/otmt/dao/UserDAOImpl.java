@@ -1,31 +1,29 @@
 package com.sunday.otmt.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import com.sunday.otmt.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.sunday.otmt.entity.User;
-
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 @Repository
 public class UserDAOImpl implements GenericDAO<User> {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	@Override
-	public User save(User newUser) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(newUser);
+	private final SessionFactory sessionFactory;
 
-		return newUser;
+	@Autowired
+	public UserDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public User save(User user) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(user);
+
+		return user;
 	}
 
 	@Override
@@ -38,12 +36,12 @@ public class UserDAOImpl implements GenericDAO<User> {
 	@Override
 	public List<User> getAllEntities() {
 		Session session = sessionFactory.getCurrentSession();
-		List<User> users = session.createQuery(
+		List<User> people = session.createQuery(
 				"from User u " +
-				"left join fetch u.assignedTasks left join fetch " +
+				"left join fetch u.assignedTasks " +
 				"left join fetch u.registeredTeams", User.class).getResultList();
 
-		return users;
+		return people;
 	}
 
 	@Override
@@ -57,12 +55,13 @@ public class UserDAOImpl implements GenericDAO<User> {
 	public User getEntityByName(String name) {
 		Session session = sessionFactory.getCurrentSession();
 
-		TypedQuery<User> query = session.createQuery(
+		User user = session.createQuery(
 				"from User u " +
-				"where u.userName =: id", User.class);
-		query.setParameter("id", name);
-
-		User user = query.getSingleResult();
+						"left join fetch u.registeredTeams " +
+						"left join fetch u.assignedTasks " +
+						"where u.userName =: uName", User.class)
+				.setParameter("uName", name)
+				.getSingleResult();
 		return user;
 	}
 	
