@@ -116,6 +116,7 @@ public class ProjectController {
             return "redirect:/team/details";
 
         currentProject.addTask(task);
+        task.setOwnerProject(currentProject);
         projectService.save(currentProject);
         
     	return "project-detail";

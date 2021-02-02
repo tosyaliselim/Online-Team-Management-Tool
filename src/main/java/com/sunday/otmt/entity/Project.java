@@ -55,13 +55,10 @@ public class Project {
 	private Team ownerTeam;
 
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerProject")
-	private List<Task> projectTasks;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerProject")
+	private List<Task> projectTasks = new ArrayList<>();
 
 	public void addTask(Task task) {
-		if (projectTasks == null) {
-			projectTasks = new ArrayList<>();
-		}
 		projectTasks.add(task);
 	}
 	
