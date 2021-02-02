@@ -117,8 +117,11 @@ public class ProjectController {
 
         Task task = currentProject.getProjectTasks().stream()
                 .filter(t -> t.getId() == taskId)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Not Found any task with " + taskId));
+                .findFirst().get();
+
+        if (task == null){
+            return "error-page";
+        }
 
         currentProject.getProjectTasks().remove(task);
         projectService.save(currentProject);

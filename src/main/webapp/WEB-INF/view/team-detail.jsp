@@ -81,6 +81,21 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-12 col-xl-12 text-right">
+                                                        <div>
+                                                            <a href="${pageContext.request.contextPath}/team/deleteProj?projId=${project.id}">
+																	<span class="badge badge-danger">
+																		<i class="far fa-trash-alt"></i>
+																	</span>
+                                                            </a>
+                                                            &nbsp;&nbsp;
+                                                            <a href="${pageContext.request.contextPath}/team/deleteProj?projId=${project.id}">
+																	<span class="badge badge-success">
+																		<i class="far fa-check-square"></i>
+																	</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

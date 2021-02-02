@@ -3,6 +3,7 @@ package com.sunday.otmt.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.sunday.otmt.entity.Task;
 import com.sunday.otmt.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,5 +68,32 @@ public class TeamController {
 
 		return "team-detail";
 	}
+
+	@GetMapping("/deleteProj")
+	public String deleteTeam(HttpServletRequest req,
+							 @RequestParam("projId") int projId,
+							 Model model){
+
+		HttpSession session = req.getSession();
+		Team currentTeam = (Team) session.getAttribute("currentTeam");
+		if (currentTeam == null)
+			return "error-page";
+
+		Project project = currentTeam.getTeamProjects().stream()
+				.filter(t -> t.getId() == projId)
+				.findFirst().get();
+
+		if (project == null){
+			return "error-page";
+		}
+
+		currentTeam.getTeamProjects().remove(project);
+		teamService.save(currentTeam);
+
+		model.addAttribute("project", new Project());
+
+		return "team-detail";
+	}
+
 
 }
