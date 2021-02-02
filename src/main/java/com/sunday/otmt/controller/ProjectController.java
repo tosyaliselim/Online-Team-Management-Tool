@@ -1,10 +1,8 @@
 package com.sunday.otmt.controller;
 
-import com.sunday.otmt.entity.User;
-import com.sunday.otmt.entity.Project;
-import com.sunday.otmt.entity.Task;
-import com.sunday.otmt.entity.Team;
+import com.sunday.otmt.entity.*;
 import com.sunday.otmt.service.GenericService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -129,6 +127,37 @@ public class ProjectController {
         model.addAttribute("task", new Task());
 
         return "project-detail";
+    }
+
+    @GetMapping("/mark")
+    public String updateStatusOfTask(HttpServletRequest req,
+                                     @RequestParam("taskId") Integer taskId,
+                                     Model model){
+
+        HttpSession session = req.getSession();
+        Project currentProject = (Project) session.getAttribute("currentProject");
+        if (currentProject == null)
+            return "error-page";
+
+        Task task = currentProject.getProjectTasks().stream()
+                .filter(t -> t.getId() == taskId)
+                .findFirst()
+                .get();
+
+        if (task == null)
+            return "error-page";
+
+        if (task.getStatus().equals(Status.FINISHED) || task.getStatus().equals(Status.PENDING))
+            task.setStatus(Status.IN_PROGRESS);
+        else
+            task.setStatus(Status.FINISHED);
+
+        projectService.save(currentProject);
+
+        model.addAttribute("task", new Task());
+
+        return "project-detail";
+
     }
     
 }

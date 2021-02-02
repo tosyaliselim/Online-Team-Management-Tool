@@ -91,7 +91,7 @@
 														<div class="font-weight-bold text-m mb-1"><span>Task: </span><span class="font-weight-normal">${task.taskTitle}</span></div>
 														<div class="font-weight-bold text-m mb-1"><span>End Date: </span><span class="font-weight-normal">${task.finishDate}</span></div>
 													</div>
-													<div class="col-auto align-self-end pr-0"><span class="badge badge-success"># STATE #</span></div>
+													<div class="col-auto align-self-end pr-0"><span class="badge badge-success">${task.status}</span></div>
 												</div>
 											</div>
 										</div>

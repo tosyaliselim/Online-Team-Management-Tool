@@ -79,7 +79,7 @@
 														</div>
 														<div class="col-md-6 col-xl-6">
 															<div class="font-weight-bold text-m mb-1">
-																<span>Status: </span><span class="font-weight-normal"># STATUS #</span>
+																<span>Status: </span><span class="font-weight-normal">${task.status}</span>
 															</div>
 														</div>
 														<c:forEach var="resp" items="${task.respondents}">
@@ -98,7 +98,7 @@
 																	</span>
 																</a>
 																&nbsp;&nbsp;
-																<a href="${pageContext.request.contextPath}/proj/deleteTask?taskId=${task.id}">
+																<a href="${pageContext.request.contextPath}/proj/mark?taskId=${task.id}">
 																	<span class="badge badge-success">
 																		<i class="far fa-check-square"></i>
 																	</span>
