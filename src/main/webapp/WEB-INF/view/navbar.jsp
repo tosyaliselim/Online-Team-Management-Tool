@@ -1,16 +1,16 @@
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5" >
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav me-auto mb-2 mb-lg-0">
-        <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
-      </div>
-       <form:form action="${pageContext.request.contextPath}/logout" method="POST" class="d-flex">
-      			<button class="btn btn-outline-info me-2" type="submit">Logout</button>
-     		</form:form>
-    </div>
+<!-- left side navbar -->
+
+<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+  <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+    <div class="sidebar-brand-icon rotate"><i class="fas fa-mug-hot"></i></div>
+    <div class="sidebar-brand-text mx-3"><span>Sunday</span></div>
+  </a>
+    <hr class="sidebar-divider my-0">
+    <ul class="nav navbar-nav text-light" id="accordionSidebar">
+      <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.htm"><i class="fas fa-table"></i><span>Teams</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="table.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+    </ul>
   </div>
 </nav>

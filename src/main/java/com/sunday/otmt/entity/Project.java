@@ -54,14 +54,12 @@ public class Project {
 	@JoinColumn(name = "OwnerTeam")
 	private Team ownerTeam;
 
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerProject")
-	private List<Task> projectTasks;
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.PERSIST})
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "ownerProject")
+	private List<Task> projectTasks = new ArrayList<>();
 
 	public void addTask(Task task) {
-		if (projectTasks == null) {
-			projectTasks = new ArrayList<>();
-		}
 		projectTasks.add(task);
 	}
 	

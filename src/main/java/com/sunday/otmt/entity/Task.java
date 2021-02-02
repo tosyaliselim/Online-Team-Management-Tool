@@ -46,6 +46,10 @@ public class Task {
 	@Column(name = "FinishDate")
 	private Date finishDate;
 
+	@Column(name = "Status")
+	@Enumerated(EnumType.STRING)
+	private Status status = Status.PENDING;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "ASSIGNED_TASK",
@@ -57,7 +61,6 @@ public class Task {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "OwnerProject")
 	private Project ownerProject;
-	
 
 	public void addRespondent(User user) {
 		if (respondents == null){

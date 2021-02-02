@@ -40,7 +40,7 @@ public class Team {
 	@JoinColumn(name = "TeamManagerId")
 	private User manager;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(
 			name="TEAM_MEMBER",
 			joinColumns = { @JoinColumn(name = "TeamId") },
@@ -48,8 +48,9 @@ public class Team {
 	)
 	private List<User> teamMembers;
 
-	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerTeam")
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.PERSIST})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerTeam", orphanRemoval = true)
 	private List<Project> teamProjects;
 	
 	public void addTeamMember(User teamMember) {
