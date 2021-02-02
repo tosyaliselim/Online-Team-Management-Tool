@@ -9,68 +9,226 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-   	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/fontawesome-all.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/fontawesome5-overrides.min.css">
 </head>
-<body>
+<body id="page-top">
+<div id="wrapper">
 	<%@ include file="navbar.jsp" %>
-	
-	<div class="container">
-		<div class="row"><h3 id="teamName" class="card-title">PROJECT DETAILS</h3></div>
-		<div class="row">
-			<div class="col-3">
-			      
-			<div class="card">
-				<img src="${pageContext.request.contextPath}/resources/img/team.jpg" class="card-img-top" alt="Card image">
-				<div class="card-body">
-					<h5 id="projectName" class="card-title"><b>${currentProject.name}</b></h5>
-					<p id="ProjectDesc" class="card-text">${currentProject.description}</p>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li id="projectManager" class="list-group-item"><strong>Project Manager</strong> <br/>${currentProject.manager.firstName} ${currentProject.manager.lastName}</li>
-					<li id="createdDate" class="list-group-item"><strong>Created Date</strong> <br/><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${currentProject.createdAt}"/></li>
-				</ul>
-			</div>
-			
-			</div>
-			<div class="col">
-				<div class="card" >
-					<div class="card-header">
-						Tasks
-						<button type="button" class="btn btn-sm btn-dark right-float" onclick="window.location.href='../proj/getTaskForm'; return false;">Create Task</button>
-					</div>
-					<ul class="list-group list-group-flush">
-						<c:forEach var="task" items="${currentProject.projectTasks}">
-							<li id="task" class="list-group-item">
-								<h5><strong>${task.taskTitle}</strong></h5> <!-- Task name -->
-								${task.description} <br/> <!-- Task description -->
-								<b>Members:</b>
-								<c:forEach var="taskMember" items="${task.respondents}">
-				                    ${taskMember.firstName} ${taskMember.lastName}<br/>
-   				 				</c:forEach>
-								<b>Start Date:</b> <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${task.startDate}"/> <br/> <!-- Task start date --> 
-								<b>Deadline:</b> <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${task.finishDate}"/> <br/> <!-- Task end date -->
-							</li>
-						</c:forEach>
+
+	<div class="d-flex flex-column" id="content-wrapper">
+		<div id="content">
+			<nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+				<div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+					<!-- Button trigger modal -->
+					<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal"><h3 class="text-dark mb-0">${currentProject.name}</h3></button>
+
+					<ul class="nav navbar-nav flex-nowrap ml-auto">
+						<div class="d-none d-sm-block topbar-divider"></div>
+						<li class="nav-item dropdown no-arrow">
+							<div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small">${currentUser.firstName} ${currentUser.lastName}</span><img class="border rounded-circle img-profile" src="${pageContext.request.contextPath}/resources/img/usericon.png"></a>
+								<div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
+									<a class="dropdown-item" href="profile.html">
+										<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile
+									</a>
+									<div class="dropdown-divider"></div><a class="dropdown-item" href=""><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
+								</div>
+							</div>
+						</li>
 					</ul>
 				</div>
-			</div>
-			
-			<div class="col-4">
-				<div class="card">
-					<div class="card-header">
-						Project Members
+			</nav>
+
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12 col-lg-8 col-xl-8 mb-4">
+						<div class="row">
+
+							<div class="col-md-12 col-xl-12">
+								<div class="d-sm-flex justify-content-between align-items-center mb-4">
+									<h5 class="text-info mb-0">TASKS OF PROJECT</h5>
+								</div>
+
+							</div>
+							<c:forEach var="task" items="${currentProject.projectTasks}">
+								<div class="col-md-12 col-xl-12 mb-4">
+									<div class="card border-bottom-info">
+										<div class="card-content">
+											<div class="card-body">
+												<h4 class="card-title text-dark">${task.taskTitle}</h4>
+
+												<hr>
+												<div class="row">
+														<div class="col-md-6 col-xl-6">
+															<div class="font-weight-bold text-m mb-1">
+																<span>Decsription: </span><span class="font-weight-normal">${task.description}</span>
+															</div>
+														</div>
+														<div class="col-md-6 col-xl-6">
+															<div class="font-weight-bold text-m mb-1">
+																<span>Start Date: </span><span class="font-weight-normal">${task.startDate}</span>
+															</div>
+														</div>
+														<div class="col-md-6 col-xl-6">
+															<div class="font-weight-bold text-m mb-1">
+																<span>End Date: </span><span class="font-weight-normal">${task.finishDate}</span></div>
+														</div>
+														<div class="col-md-6 col-xl-6">
+															<div class="font-weight-bold text-m mb-1">
+																<span>Status: </span><span class="font-weight-normal"># STATUS #</span>
+															</div>
+														</div>
+														<c:forEach var="resp" items="${task.respondents}">
+															<div class="col-md-6 col-xl-6">
+																<div class="font-weight-bold text-m mb-1">
+																	<span>Respondent: </span><span class="font-weight-normal">${resp.firstName} ${resp.lastName}</span>
+																</div>
+															</div>
+														</c:forEach>
+
+														<div class="col-md-12 col-xl-12 text-right">
+															<div>
+																<a href="${pageContext.request.contextPath}/proj/deleteTask?taskId=${task.id}">
+																	<span class="badge badge-danger">
+																		<i class="far fa-trash-alt"></i>
+																	</span>
+																</a>
+																&nbsp;&nbsp;
+																<a href="${pageContext.request.contextPath}/proj/deleteTask?taskId=${task.id}">
+																	<span class="badge badge-success">
+																		<i class="far fa-check-square"></i>
+																	</span>
+																</a>
+															</div>
+														</div>
+
+													<div class="col-auto align-self-end pr-0"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+
+						</div>
 					</div>
-					<ul class="list-group list-group-flush">
-						<!-- Burada for ile project memberlar donucek. 
-						<li class="list-group-item">Bilgehan Kaya</li>
-						-->
-					</ul>
+					<div class="col-md-12 col-lg-4 col-xl-4 mb-4">
+						<div class="col-12">
+							<div class="d-sm-flex justify-content-between align-items-center mb-4">
+								<h5 class="mb-0">Task Members</h5>
+								<button type="button" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-toggle="modal" data-target="#createProjectModal">Create Task</button>
+							</div>
+						</div>
+						<div class="col-12 mb-2">
+							<ul class="list-group text-dark">
+								<!-- PROJECT MEMBERS -->
+								<li class="list-group-item border-left-secondary">Bilgehan Kaya</li>
+								<li class="list-group-item border-left-secondary">Nurullah Yüce</li>
+								<li class="list-group-item border-left-secondary">Mert Alper</li>
+								<li class="list-group-item border-left-secondary">Selim Tosyalı</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Detail Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-dark" id="exampleModalLabel">Project Details</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h6 class="text-dark"><strong>Owner Team: </strong>${currentProject.ownerTeam.name}</h6>
+						<h6 class="text-dark"><strong>Project Name: </strong>${currentProject.name}</h6>
+						<h6 class="text-dark"><strong>Project Description: </strong>${currentProject.description}</h6>
+						<h6 class="text-dark"><strong>Project Manager: </strong>${currentProject.manager.firstName} ${currentProject.manager.lastName}</h6>
+						<h6 class="text-dark"><strong>Project Created Date: </strong>${currentProject.createdAt}</h6>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Detail Modal End -->
+
+		<!-- Create Task Modal -->
+		<div class="modal fade bd-example-modal-lg" id="createProjectModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="container">
+							<div class="card shadow-lg o-hidden border-0 my-2">
+								<div class="card-body p-0">
+									<div class="row">
+										<div class="col-12">
+											<div class="p-5">
+												<div class="text-center">
+													<h4 class="text-dark mb-4">Create an Task!</h4>
+												</div>
+												<form:form action="${pageContext.request.contextPath}/proj/createTask" method="POST" modelAttribute="task" class="user">
+													<div class="form-group"><strong>Task Title* </strong>
+														<form:input path="taskTitle" type="text" class="form-control form-control-user" required="true"/>
+													</div>
+													<div class="form-group"><strong>Task Description* </strong>
+														<form:input path="description" type="text" class="form-control form-control-user"/>
+													</div>
+													<div class="form-group"><strong>Start Date* </strong>
+														<form:input path="startDate" class="form-control" type="date" value="2021-02-02"/>
+													</div>
+													<div class="form-group"><strong>Finish Date* </strong>
+														<form:input path="finishDate" class="form-control" type="date" value="2021-02-02"/>
+													</div>
+													<div class="form-group">
+														<div><strong>Task Respondents* </strong></div>
+														<div class="custom-control custom-checkbox small">
+															<c:forEach var="teamMember" items="${currentTeam.teamMembers}">
+																<form:checkbox path="respondents"
+																			   class="form-check-input"
+																			   label="${teamMember.firstName} ${teamMember.lastName}"
+																			   value="${teamMember.userName}"/>
+															</c:forEach>
+														</div>
+													</div>
+													<button class="btn btn-primary btn-block text-white btn-user" type="submit">Create</button>
+												</form:form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Create Project Modal -->
+
+		<footer class="bg-white sticky-footer">
+			<div class="container my-auto">
+				<div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
+			</div>
+		</footer>
+	</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/chart.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bs-init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/theme.js"></script>
+
 </body>
 </html>

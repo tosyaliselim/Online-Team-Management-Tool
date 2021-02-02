@@ -42,7 +42,7 @@
 						<li class="nav-item dropdown no-arrow">
 							<div class="nav-item dropdown no-arrow">
 								<a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">
-									<span class="d-none d-lg-inline mr-2 text-gray-600 small">Valerie Luna</span>
+									<span class="d-none d-lg-inline mr-2 text-gray-600 small">${currentUser.firstName} ${currentUser.lastName}</span>
 									<img class="border rounded-circle img-profile" src="${pageContext.request.contextPath}/resources/img/usericon.png">
 								</a>
 								<div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">

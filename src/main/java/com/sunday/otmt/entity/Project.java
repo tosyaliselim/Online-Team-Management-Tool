@@ -54,8 +54,9 @@ public class Project {
 	@JoinColumn(name = "OwnerTeam")
 	private Team ownerTeam;
 
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerProject")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.PERSIST})
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "ownerProject")
 	private List<Task> projectTasks = new ArrayList<>();
 
 	public void addTask(Task task) {

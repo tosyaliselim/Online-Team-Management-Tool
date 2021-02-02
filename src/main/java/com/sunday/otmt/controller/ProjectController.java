@@ -32,27 +32,6 @@ public class ProjectController {
 	@Autowired
 	@Qualifier("projectServiceImpl")
 	private GenericService<Project> projectService;
-	
-    @GetMapping("/getForm")
-    public String getProjectForm(HttpServletRequest req, Model model){
-
-        HttpSession session = req.getSession();
-        User currentUser = (User)session.getAttribute("currentUser");
-        if (currentUser == null)
-            return "login-page";
-
-        Team currentTeam = (Team) session.getAttribute("currentTeam");
-        if (currentTeam == null)
-            return "redirect:/home";
-
-        List<User> teamMembers = currentTeam.getTeamMembers();
-        model.addAttribute("teamMembers", teamMembers);
-
-        Project project = new Project();
-        model.addAttribute("project", project);
-
-        return "create-project-form";
-    }
 
     @PostMapping("/create")
     public String createProject(HttpServletRequest req,
@@ -77,28 +56,7 @@ public class ProjectController {
         
         return "team-detail";
     }
-    
-    @GetMapping("/getTaskForm")
-    public String getTaskForm(HttpServletRequest req, Model model) {
-    	
-        HttpSession session = req.getSession();
-        User currentUser = (User)session.getAttribute("currentUser");
-        if (currentUser == null)
-            return "login-page";
 
-        Team currentTeam = (Team) session.getAttribute("currentTeam");
-        if (currentTeam == null)
-            return "redirect:/home";
-        
-        Task task = new Task();
-        model.addAttribute("task", task);
-        
-    	List<User> teamMembers = currentTeam.getTeamMembers();
-    	model.addAttribute("teamMembers", teamMembers);
-    	
-    	return "create-task-form";
-    }
-    
     @PostMapping("/createTask")
     public String createTask(HttpServletRequest req,
             				@ModelAttribute("task") Task task) {
@@ -123,8 +81,9 @@ public class ProjectController {
     }
     
 	@GetMapping("/details")
-	public String showTeam(@RequestParam("projectId") int projectId, 
-			  			   HttpServletRequest req) {
+	public String showProject(@RequestParam("projectId") int projectId,
+                              HttpServletRequest req,
+                              Model model) {
 		
         HttpSession session = req.getSession();
         User currentUser = (User)session.getAttribute("currentUser");
@@ -138,8 +97,35 @@ public class ProjectController {
         Project project = projectService.getById(projectId);
         
         session.setAttribute("currentProject", project);
-		
+
+        // TODO: PRoject MEmbers inside Session
+
+		model.addAttribute("task", new Task());
+
 		return "project-detail";
 	}
+
+	@GetMapping("/deleteTask")
+    public String deleteTask(HttpServletRequest req,
+                             @RequestParam("taskId") int taskId,
+                             Model model){
+
+        HttpSession session = req.getSession();
+        Project currentProject = (Project) session.getAttribute("currentProject");
+        if (currentProject == null)
+            return "error-page";
+
+        Task task = currentProject.getProjectTasks().stream()
+                .filter(t -> t.getId() == taskId)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Not Found any task with " + taskId));
+
+        currentProject.getProjectTasks().remove(task);
+        projectService.save(currentProject);
+
+        model.addAttribute("task", new Task());
+
+        return "project-detail";
+    }
     
 }
